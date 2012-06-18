@@ -6115,7 +6115,8 @@ current file contains unstaged changes."
                    0)
           (error "Failed to get %s's version: %s" file rev))
         (when (and (functionp mode) same-mode)
-          (funcall mode))
+(assoc-default (egg-file-git-name file) auto-mode-alist 'string-match))
+;          (funcall mode))
         (set-buffer-modified-p nil)
         (setq buffer-read-only t)))
     buf))
@@ -6151,7 +6152,7 @@ current file contains unstaged changes."
                    t)))
     (unless (and (bufferp dst-buf) (bufferp src-buf))
       (error "Ooops!"))
-    (ediff-buffers dst-buf src-buf)))
+    (ediff-buffers src-buf dst-buf)))
 
 (defun egg-resolve-merge-with-ediff (&optional what)
   (interactive "P")
